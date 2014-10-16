@@ -10,16 +10,13 @@ Debe implementar una solución modular para que le pueda ser funcional al moment
 
 Se requiere que el programa solicite al usuario un listado de posibles destinos y los Distance Vectors a dichos destinos. Esta información será enviada a un módulo que se encargará de dar formato a la información, construyendo el mensaje visto en clase:
 
-`
-Type:DV
-Len: <Cantidad de líneas del mensaje>
-<Listado con el siguiente formato:
-<Destino>:<Costo de la ruta>
-<Destino>:<Costo de la ruta>
-…
-<Destino n>:<Costo de la ruta al destino n>
->
-`
+    Type:DV
+    Len: <Cantidad de líneas del mensaje>
+    <Listado con el siguiente formato:
+    <Destino>:<Costo de la ruta>
+    <Destino>:<Costo de la ruta>
+    …
+    <Destino n>:<Costo de la ruta al destino n>
 
 Recuerde que el sistema que intercambia información entre los routers debe tener dos módulos. Un módulo Cliente y un módulo Servidor. 
 El componente Cliente se encargará de enviar la data de los distance vector ingresados por el usuario al puerto 9080 de sus routers adyacentes. 
