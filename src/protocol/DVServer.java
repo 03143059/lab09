@@ -41,10 +41,6 @@ public class DVServer implements Runnable {
             while (true) //listen until user halts execution
             {
                 DVServer server = new DVServer(serverConnect.accept()); //instantiate HttpServer
-                if (verbose) {
-                    System.out.println("Connection opened from: " +
-                            serverConnect.getInetAddress() + " (" + new Date() + ")");
-                }
                 //create new thread using a thread pool
                 threadPoolExecutor.execute(server);
             }
@@ -56,6 +52,10 @@ public class DVServer implements Runnable {
 
     @Override
     public void run() {
+        if (verbose) {
+            System.out.println("Connection opened from: " +
+                    connect.getInetAddress() + " (" + new Date() + ")");
+        }
         BufferedReader in = null;
 
         try {
