@@ -2,6 +2,8 @@ package protocol;
 
 import java.io.*;
 import java.net.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.StringTokenizer;
 import java.util.concurrent.ExecutorService;
@@ -19,13 +21,23 @@ public class DVServer implements Runnable {
 
     //instance variables
     Socket connect;
+    DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     //constructor
     public DVServer(Socket connect) {
         this.connect = connect;
+        if (verbose) {
+            System.out.println("Connection opened from: " +
+                    connect.getRemoteSocketAddress() + " (" + df.format(new Date()) + ")");
+        }
     }
 
     public static void start(InetAddress address, int port) {
+        DVServer.start(address, port, true);
+    }
+
+    public static void start(InetAddress address, int port, boolean verbose) {
+        DVServer.verbose = verbose;
         ExecutorService threadPoolExecutor =
                 new ThreadPoolExecutor(
                         5, //corePoolSize,
@@ -52,10 +64,6 @@ public class DVServer implements Runnable {
 
     @Override
     public void run() {
-        if (verbose) {
-            System.out.println("Connection opened from: " +
-                    connect.getInetAddress() + " (" + new Date() + ")");
-        }
         BufferedReader in = null;
 
         try {
@@ -83,7 +91,7 @@ public class DVServer implements Runnable {
                 parse = new StringTokenizer(input, ":");
                 String ip = parse.nextToken();
                 int dv = Integer.parseInt(parse.nextToken());
-                Target t = new Target(ip, dv, false);
+                Target t = new Target(ip, dv);
                 if (verbose) {
                     System.out.println("Received target #" + i + ": " + t);
                 }
